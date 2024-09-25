@@ -1,0 +1,112 @@
+<odoo>
+    <record id="view_test_model_tree" model="ir.ui.view">
+        <field name="name">test.model.tree</field>
+        <field name="model">test.model</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="number"/>
+                <field name="created_date"/>
+                <field name="true"/>
+                <field name="yes_no"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_test_model_form" model="ir.ui.view">
+        <field name="name">test.model.form</field>
+        <field name="model">test.model</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="open_wizard" string="wizard" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="document_creator"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="number"/>
+                            <field name="created_date"/>
+                            <field name="created_time"/>
+                        </group>
+                        <group>
+                            <field name="responsible_partner_id" readonly="not document_creator"/>
+                            <field name="float_no"/>
+                            <field name="document"/>
+                            <field name="true"/>
+                            <field name="yes_no"/>
+                            <field name="false"/>
+                        </group>
+                        <group>
+                            <field name="option_one"/>
+                            <field name="option_two"/>
+                            <field name="select_all"/>
+                        </group>
+                    </group>
+                    <group invisible="not (option_one and document_creator) and not (option_two and responsible_partner_id)">   
+                        <field name="clients"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="test_model_action" model="ir.actions.act_window">
+        <field name="name">Test Model</field>
+        <field name="res_model">test.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="menu_test_model" model="ir.ui.menu">
+        <field name="action" ref="test_model_action"/>
+        <field name="name"> мой тест </field>
+    </record>
+
+    <menuitem id="test_menu_root" name="Test">
+        <menuitem id="test_first_level_menu" name="First Level">
+            <menuitem id="test_model_menu_action" action="test_model_action"/>
+        </menuitem>
+    </menuitem>
+
+    <record id="view_test_model_line_tree" model="ir.ui.view">
+        <field name="name">test.model.line.tree</field>
+        <field name="model">test.model.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="test_model_id"/>
+                <field name="partner_id"/>
+                <field name="email"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_test_model_line_form" model="ir.ui.view">
+        <field name="name">test.model.line.form</field>
+        <field name="model">test.model.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="test_model_id"/>
+                        <field name="partner_id"/>
+                        <field name="email"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="test_model_line_action" model="ir.actions.act_window">
+        <field name="name">Test Model Line</field>
+        <field name="res_model">test.model.line</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="test_menu_line_root" name="Test">
+        <menuitem id="test_second_level_menu" name="Second Level">
+            <menuitem id="test_model_menu_action" action="test_model_line_action"/>
+        </menuitem>
+    </menuitem>
+</odoo>
