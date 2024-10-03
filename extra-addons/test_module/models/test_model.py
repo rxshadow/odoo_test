@@ -18,7 +18,7 @@ class TestModel(models.Model):
     ], string='Yes or No')
     false = fields.Boolean(string="False?")
 
-    document_creator = fields.Many2one("res.partner", "Создатель документа", default=lambda self: self.env.user.id, required = True)
+    document_creator = fields.Many2one("res.users", "Создатель документа", default=lambda self: self.env.user.id, required = True)
     responsible_partner_id = fields.Many2one("res.partner", "Ответственный")
     clients = fields.One2many("test.model.line", "test_model_id", string="Clients")
 
@@ -30,12 +30,15 @@ class TestModel(models.Model):
     def onchange_state(self):
         if self.option_one and self.option_two:
             self.select_all = True
-        else:
-            self.select_all = False 
+        elif not self.option_one or not self.option_two:
+            self.select_all = False
+
 
     @api.onchange("select_all")
     def onchange_select_all(self):
-        if self.select_all:
+        if not self.select_all and (not self.option_one or not self.option_two):
+            pass
+        elif self.select_all:
             self.option_one = True
             self.option_two = True
         else:
